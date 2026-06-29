@@ -70,7 +70,8 @@ class Assessment4ApplicationTests {
         testAccount1.setAccountType("SAVINGS");
         testAccount1.setBalance(50000.0);
         testAccount1.setCustomer(testCustomer);
-        testAccount1 = accountRepository.save(testAccount1);
+
+        //testAccount1 = accountRepository.save(testAccount1);
 
         testAccount2 = new Account();
         testAccount2.setAccountNumber("ACC1002");
@@ -78,6 +79,12 @@ class Assessment4ApplicationTests {
         testAccount2.setBalance(150000.0);
         testAccount2.setCustomer(testCustomer);
         testAccount2 = accountRepository.save(testAccount2);
+        testCustomer.getAccounts().add(testAccount1);
+
+        testAccount2.setCustomer(testCustomer);
+        testCustomer.getAccounts().add(testAccount2);
+
+        customerRepository.save(testCustomer);
     }
 
     // --- TASK 1: ENTITY MAPPING TESTS ---
