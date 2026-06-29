@@ -41,22 +41,14 @@ public class BankController {
 
     // --- Task 6: Pagination & Sorting (Default: Balance DESC) ---
     @GetMapping("/accounts")
-    @PreAuthorize("hasAnyRole('USER', 'MANAGER', 'ADMIN')")
     public ResponseEntity<Page<Account>> getAllAccounts(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size) {
-
-        // Strictly balancing Sort criteria by Balance DESC as demanded by Task 6
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "balance"));
-        return ResponseEntity.ok(bankService.getAllAccountsPaginated(pageable));
+            return null;
     }
 
     // --- Task 9: Role Based Access Control Endpoints ---
     @DeleteMapping("/accounts/{accountNumber}")
     @PreAuthorize("hasRole('ADMIN')") // Task 9: ADMIN can delete accounts
     public ResponseEntity<Void> deleteAccount(@PathVariable String accountNumber) {
-        bankService.deleteAccount(accountNumber);
-        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/accounts/{accountNumber}/balance")
@@ -64,14 +56,12 @@ public class BankController {
     public ResponseEntity<Void> updateAccountBalance(
             @PathVariable String accountNumber,
             @RequestParam double amount) {
-        bankService.increaseAccountBalance(accountNumber, amount);
-        return ResponseEntity.ok().build();
+
     }
 
     @GetMapping("/accounts/view/{accountNumber}")
     @PreAuthorize("hasRole('USER')") // Task 9: USER can only view accounts
     public ResponseEntity<List<Account>> viewAccountsByType(@RequestParam String type) {
-        return ResponseEntity.ok(bankService.getAccountsByType(type));
     }
 
     // --- Task 7: DTO Projection Aggregation ---

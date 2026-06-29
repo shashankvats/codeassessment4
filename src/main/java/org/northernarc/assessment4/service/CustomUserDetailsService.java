@@ -18,25 +18,5 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final CustomerRepository customerRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Find the customer by email (acting as the username)
-        Customer customer = customerRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Customer not found with email: " + email));
-
-        // Assign a default role for the customer context mapping (e.g., ROLE_USER)
-        // Note: For a dynamic production application, you can map an explicit 'role' column from the Customer entity
-        List<SimpleGrantedAuthority> authorities = Collections.singletonList(
-                new SimpleGrantedAuthority("ROLE_USER")
-        );
-
-        // Return a Spring Security core User instance carrying the secure state matrix
-        return new User(
-                customer.getEmail(),
-                customer.getPassword(),
-                authorities
-        );
-    }
 }
